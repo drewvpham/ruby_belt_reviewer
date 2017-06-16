@@ -1,0 +1,21 @@
+<h1>Edit your profile</h1>
+<span></span>
+<%= form_tag user_path(@user) do %>
+  <label>First Name:</label><br>
+  <%= text_field_tag :'user[first_name]', @user.first_name %><br>
+
+  <label>Last Name:</label><br>
+  <%= text_field_tag :'user[last_name]', @user.last_name %><br>
+
+  <label>Email:</label><br>
+  <%= text_field_tag :'user[email]', @user.email %><br>
+
+  <label>Location:</label><br>
+  <%= text_field_tag :'user[location]', @user.location %><br>
+
+  <label>State:</label><br>
+  <%= text_field_tag :'user[state]', @user.state %><br>
+
+
+  <%= submit_tag "Update Info" %>
+<% end %>

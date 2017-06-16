@@ -1,0 +1,29 @@
+<h1>Welcome <%=@user.first_name%> </h1>
+
+<h3>Here are some events in your state</h3>
+
+
+
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>State</th>
+      <th>Host</th>
+      <th>Action/Status</th>
+    </tr>
+    <%@local_events.each do |x|%>
+    <tr>
+      <td><%= link_to x.name, event_path(x) %></td>
+      <td><%=x.date%></td>
+      <td><%=x.location%></td>
+      <td><%=x.state%></td>
+      <td><%=x.user.first_name%> <%=x.user.last_name%></td>
+      <td>
+        hi
+    </tr>
+    <%end%>
+
+  </table>

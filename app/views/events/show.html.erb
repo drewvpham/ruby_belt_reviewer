@@ -1,0 +1,31 @@
+<h3><%=@event.name%></h3>
+
+<p>Host: <%=@event.user.first_name%> <%=@event.user.last_name%></p>
+<p>Date: <%=@event.date%></p>
+<p>Location: <%=@event.location%>, <%=@event.state%></p>
+<p>People who are attending the event: <%=@event.attendees.count%></p>
+
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>State</th>
+  </tr>
+  <%@event.attendees.each do |x|%>
+  <tr>
+    <td><%=x.first_name%> <%=x.last_name%></td>
+    <td><%=x.location%></td>
+    <td><%=x.state%></td>
+  </tr>
+  <%end%>
+</table>
+
+  <h4>Discussion about this event:</h4>
+  <div>
+    <% @comments.each do |comment|%>
+    <p><%=comment.user.first_name%> <%=comment.user.last_name%> says: <%=comment.content%></p>
+    <%end%>
+
+
+</div>
