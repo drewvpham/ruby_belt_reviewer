@@ -32,3 +32,14 @@
       <p><%=error%></p>
     <%end%>
   <%end%>
+
+  <h3>Login</h3>
+     <%= form_tag sessions_path do %>
+       <label>Email:</label><br>
+       <%= text_field_tag :'user[email]' %><br>
+       <label>Password:</label><br>
+       <%= password_field_tag :'user[password]' %><br>
+       <%= submit_tag "Login" %>
+     <% end %>
+
+        <p class='errors'><%= flash[:login_error]%>

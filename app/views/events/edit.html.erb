@@ -1,0 +1,19 @@
+<%=link_to 'Events Dashboard', events_path%>
+<a data-method="delete" href="/sessions/<%= session[:user_id] %>">Logout</a>
+
+
+<h1>Edit your event</h1>
+<span></span>
+<%= form_tag event_path(@event) do %>
+<label>Event Name:</label><br>
+<%= text_field_tag :'event[name]', @event.name %><br>
+<label>Date:</label><br>
+<%= date_field_tag :'event[date]', @event.date %><br>
+<label>Location:</label><br>
+<%= text_field_tag :'event[location]', @event.location %><br>
+<label>State:</label><br>
+<%= text_field_tag :'event[state]',@event.state %><br>
+
+<%= submit_tag "Edit Event" %>
+
+<% end %>

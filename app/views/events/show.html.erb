@@ -5,7 +5,16 @@
 <p>Location: <%=@event.location%>, <%=@event.state%></p>
 <p>People who are attending the event: <%=@event.attendees.count%></p>
 
+<%if @user.events_attending_ids.include?(@event.id)%>
+  Joining  <%= link_to 'Cancel', attendance_path(@event), method: :delete%>
+<%else%>
+  <%= link_to 'Join', attendances_url(:event=>@event.id, :user=>current_user), method: :post%>
+<%end%>
 
+<p></p>
+<%= link_to 'Events Dashboard', events_path%>
+<%= link_to 'Logout', session_path, method: :delete%>
+<%if @event.attendees.count>0%>
 <table>
   <tr>
     <th>Name</th>
@@ -20,22 +29,35 @@
   </tr>
   <%end%>
 </table>
+<%end%>
 
   <h4>Discussion about this event:</h4>
   <div>
     <% @comments.each do |comment|%>
-    <p><%=comment.user.first_name%> <%=comment.user.last_name%> says: <%=comment.content%></p>
+    <p><%=comment.user.first_name%> <%=comment.user.last_name%> said: <%=comment.content%></p>
+    <p><%=comment.created_at.strftime("Posted on %m/%d/%Y at %I:%M%p")%>
+      <%if comment.user.id ==session[:user_id]%>
+      <%= link_to 'Delete', comment_path(comment), method: :delete%>
+
+      <%end%>
     <%end%>
   </div>
 
     <h5>Add Comment:</h5>
-    <form action='/comments' method='post'>
+    <form action='/comments/<%=@event.id%>' method='post'>
       <input type='hidden' name='authenticity_token' value="<%=form_authenticity_token%>">
-      <input type='hidden' name='comment[:event_id]' value="<%=@event.id%>">
+
       <div>
 
-      <textarea rows="4" cols="50"></textarea>
+      <textarea rows="4" cols="50" name=content></textarea>
       <p></p>
+
 
   <input type='submit' value='Submit'>
 </form>
+
+<% if flash[:errors]%>
+    <%flash[:errors].each do |error|%>
+    <p><%=error%></p>
+    <%end%>
+<%end%>

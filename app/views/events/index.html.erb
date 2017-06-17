@@ -1,11 +1,46 @@
 <h1>Welcome <%=@user.first_name%> </h1>
+<%=link_to 'Edit Profile', edit_user_path(@user)%>
+<a data-method="delete" href="/sessions/<%= session[:user_id] %>">Logout</a>
 
-<h3>Here are some events in your state</h3>
-
-
-
-
+  <%if @local_events.count>0%>
   <table>
+    <h3>Here are some events in your state</h3>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>State</th>
+      <th>Host</th>
+      <th>Status / Action</th>
+    </tr>
+    <%@local_events.each do |event|%>
+    <tr>
+      <td><%= link_to event.name, event_path(event) %></td>
+      <td><%=event.date.strftime("%b %d, %Y")%></td>
+      <td><%=event.location%></td>
+      <td><%=event.state%></td>
+      <td><%=event.user.first_name%> <%=event.user.last_name%></td>
+      <td>
+          <%if @user.events_attending_ids.include?(event.id)%>
+            Joining  <%= link_to 'Cancel', attendance_path(event), method: :delete%>
+          <%else%>
+            <%= link_to 'Join', attendances_url(:event=>event.id, :user=>current_user), method: :post%>
+        <%end%>
+
+        <%if @user.id== event.user.id%>
+          <%=link_to 'Edit', edit_event_path(event)%>
+          <%= link_to 'Delete', event_path(event), method: :delete%>
+        <%end%>
+      </td>
+    </tr>
+    <%end%>
+  </table>
+  <%end%>
+
+
+  <%if @other_events.count>0%>
+  <table>
+    <h3>Here are some of the events in other states</h3>
     <tr>
       <th>Name</th>
       <th>Date</th>
@@ -14,16 +49,41 @@
       <th>Host</th>
       <th>Action/Status</th>
     </tr>
-    <%@local_events.each do |x|%>
+    <%@other_events.each do |event|%>
     <tr>
-      <td><%= link_to x.name, event_path(x) %></td>
-      <td><%=x.date%></td>
-      <td><%=x.location%></td>
-      <td><%=x.state%></td>
-      <td><%=x.user.first_name%> <%=x.user.last_name%></td>
+      <td><%= link_to event.name, event_path(event) %></td>
+      <td><%=event.date.strftime("%b %d, %Y")%></td>
+      <td><%=event.location%></td>
+      <td><%=event.state%></td>
+      <td><%=event.user.first_name%> <%=event.user.last_name%></td>
       <td>
-        hi
+          <%if @user.events_attending_ids.include?(event.id)%>
+            Joining  <%= link_to 'Cancel', attendance_path(event), method: :delete%>
+          <%else%>
+            <%= link_to 'Join', attendances_url(:event=>event.id, :user=>current_user), method: :post%>
+        <%end%>
+
+        <%if @user.id== event.user.id%>
+          <%=link_to 'Edit', edit_event_path(event)%>
+          <%= link_to 'Delete', event_path(event), method: :delete%>
+        <%end%>
+      </td>
     </tr>
     <%end%>
-
   </table>
+  <%end%>
+
+  <h3>Add Event</h3>
+  <%= form_tag events_path do %>
+    <label>Event Name:</label><br>
+    <%= text_field_tag :'event[name]' %><br>
+    <label>Date:</label><br>
+    <%= date_field_tag :'event[date]' %><br>
+    <label>Location:</label><br>
+    <%= text_field_tag :'event[location]' %><br>
+    <label>State:</label><br>
+    <%= text_field_tag :'event[state]' %><br>
+
+    <%= submit_tag "Add Event" %>
+
+  <% end %>

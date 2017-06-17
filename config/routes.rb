@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  resources :users, :events
+  resources :users, :events, :sessions, :attendances, :comments
   root 'users#new'
   get '/user/:id'=> 'users#show'
-  post '/user/:id'=> 'users#update'
-  post '/comments' => 'comments#create'
+  post '/users/:id'=> 'users#update'
+  post '/comments/:id' => 'comments#create'
+  delete '/comments/:id' => 'comments#destroy'
+  post '/events/:id'=> 'events#update'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
