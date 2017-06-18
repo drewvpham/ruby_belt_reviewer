@@ -17,4 +17,6 @@ class ApplicationController < ActionController::Base
     def user_logged_in
       redirect_to events_path if session[:user_id]
     end
+
+
 end

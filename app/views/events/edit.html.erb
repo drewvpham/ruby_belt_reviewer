@@ -4,7 +4,7 @@
 
 <h1>Edit your event</h1>
 <span></span>
-<%= form_tag event_path(@event) do %>
+<%= form_tag event_path(@event), method: "put" do %>
 <label>Event Name:</label><br>
 <%= text_field_tag :'event[name]', @event.name %><br>
 <label>Date:</label><br>
@@ -17,3 +17,20 @@
 <%= submit_tag "Edit Event" %>
 
 <% end %>
+
+
+<!-- <%= form_for(@event) do |f| %>
+  <label>Name</label><br>
+  <%= f.text_field :name %><br>
+
+  <label>Date</label><br>
+  <%= f.date_field  :date %><br>
+
+  <label>Location</label><br>
+  <%= f.text_field  :location %><br>
+
+  <label>State</label><br>
+  <%= f.text_field  :state %><br>
+
+  <%= f.submit %>
+<% end %> -->

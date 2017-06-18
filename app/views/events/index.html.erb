@@ -85,5 +85,9 @@
     <%= text_field_tag :'event[state]' %><br>
 
     <%= submit_tag "Add Event" %>
-
   <% end %>
+  <% if flash[:errors]%>
+      <%flash[:errors].each do |error|%>
+      <p><%=error%></p>
+    <%end%>
+  <%end%>

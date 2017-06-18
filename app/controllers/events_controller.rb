@@ -1,11 +1,10 @@
 class EventsController < ApplicationController
+  before_action :user_authorized
+
   def index
-    if session[:user_id]
       @user=User.find(session[:user_id])
-      print @user.first_name
       @local_events=Event.where(state: @user.state)
       @other_events=Event.where.not(state: @user.state)
-    end
   end
 
   def show
@@ -19,8 +18,10 @@ class EventsController < ApplicationController
     @event= Event.create(event_params.merge(user:@user))
     if @event.valid?
 
-      redirect_to events_path
+    else
+      flash[:errors]=@event.errors.full_messages
     end
+    redirect_to events_path
   end
 
   def destroy
@@ -30,9 +31,14 @@ class EventsController < ApplicationController
 
   def edit
     @event=Event.find(params[:id])
+    if !current_user==@event.user
+      redirect_to :back
+    end
+
   end
 
   def update
+    
     @event=Event.find(params[:id])
     @event.update(event_params)
     redirect_to events_path

@@ -2,10 +2,6 @@ class UsersController < ApplicationController
   before_action :user_authorized, only: [:show]
   before_action :user_logged_in, only: [:new]
   def index
-
-  end
-
-  def new
   end
 
   def create
