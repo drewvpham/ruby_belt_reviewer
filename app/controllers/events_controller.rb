@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :user_authorized
+  before_action :update_authorization, only: [:edit]
 
   def index
       @user=User.find(session[:user_id])
@@ -31,17 +32,11 @@ class EventsController < ApplicationController
 
   def edit
     @event=Event.find(params[:id])
-    if !current_user==@event.user
-      redirect_to :back
-    end
-
   end
 
   def update
-    
     @event=Event.find(params[:id])
     @event.update(event_params)
-    redirect_to events_path
   end
   private
 

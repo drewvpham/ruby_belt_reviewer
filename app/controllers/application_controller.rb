@@ -18,5 +18,13 @@ class ApplicationController < ActionController::Base
       redirect_to events_path if session[:user_id]
     end
 
+    def update_authorization
+      event=Event.find(params[:id])
+      if current_user!=event.user
+        redirect_to events_path
+      end
+    end
+    helper_method :update_authorization
+
 
 end
